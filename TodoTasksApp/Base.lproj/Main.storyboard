@@ -104,7 +104,7 @@
         <!--Completed Tasks-->
         <scene sceneID="T8r-0q-2bO">
             <objects>
-                <viewController id="e8S-of-a2C" sceneMemberID="viewController">
+                <viewController id="e8S-of-a2C" customClass="CompletedViewController" customModule="TodoTasksApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="q4u-Te-yFH">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -113,7 +113,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="completedCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="MPh-it-YHa">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="completedCell" id="MPh-it-YHa">
                                         <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MPh-it-YHa" id="O3A-DX-UJy">
@@ -134,6 +134,9 @@
                         <viewLayoutGuide key="safeArea" id="mtI-QY-fix"/>
                     </view>
                     <navigationItem key="navigationItem" title="Completed Tasks" id="QYE-ZG-K4k"/>
+                    <connections>
+                        <outlet property="completedTableView" destination="Tfn-8N-IeR" id="n8M-xn-qIG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wap-fm-aJF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -177,6 +180,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="G0p-pD-3az" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="gPY-0H-QlJ">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>

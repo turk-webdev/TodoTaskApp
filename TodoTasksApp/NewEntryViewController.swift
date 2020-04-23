@@ -33,12 +33,12 @@ class NewEntryViewController: UIViewController, UITextFieldDelegate, UITextViewD
             text = newEntryTextField.text,
             !text.isEmpty
         else {
-            print("return1")
+            print("err1")
             return
         }
         
         guard let count = UserDefaults.standard.value(forKey: "count") as? Int else {
-            print("return2")
+            print("err2")
             return
         }
         
@@ -48,10 +48,10 @@ class NewEntryViewController: UIViewController, UITextFieldDelegate, UITextViewD
         let encoder = JSONEncoder()
         
         do {
-            let taskData: Data = try encoder.encode(Task(name: text, isComplete: false))
+            let taskData: Data = try encoder.encode(Task(name: text, isComplete: false, id: count+1))
             UserDefaults.standard.set(taskData, forKey: "task_\(count+1)")
         } catch {
-            print("Something went wrong with saving:\n\(error)")
+            print("ERROR -- NewEntryViewController.52::Something went wrong with saving:\n\(error)")
         }
         
         update?()

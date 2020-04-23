@@ -8,12 +8,26 @@
 
 import UIKit
 
+struct Task: Codable {
+    var name: String
+    var isComplete: Bool
+    var id: Int
+    
+    init(name: String, isComplete: Bool, id: Int) {
+        self.name = name
+        self.isComplete = isComplete
+        self.id = id
+    }
+}
+
 class TodoViewController: UIViewController {
     var tasks = [Task]()
-    var uuids = [String]()
     
     @IBOutlet weak var todoTableView: UITableView!
     
+    override func viewDidAppear(_ animated: Bool) {
+        update()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +50,7 @@ class TodoViewController: UIViewController {
     
     func update() {
         tasks.removeAll()
+        
         let decoder = JSONDecoder()
         
         guard let count = UserDefaults.standard.value(forKey: "count") as? Int else {
@@ -49,21 +64,18 @@ class TodoViewController: UIViewController {
             
             do {
                 let decodedTask: Task = try decoder.decode(Task.self, from: taskData)
-                tasks.append(decodedTask)
+                
+                if !decodedTask.isComplete {
+                    tasks.append(decodedTask)
+                }
             } catch {
-                print(error)
+                print("ERROR -- TodoViewController.67::\(error)")
             }
-            
             
         }
         
         todoTableView.reloadData()
     }
-    
-    func markDone(_ i: Int) {
-        
-    }
-    
     
     @IBAction func didTapAdd(_ sender: Any) {
         let newEntryVC = storyboard?.instantiateViewController(identifier: "newEntryView") as! NewEntryViewController
@@ -78,33 +90,62 @@ class TodoViewController: UIViewController {
         navigationController?.pushViewController(newEntryVC, animated: true)
     }
     
+    @objc func updateTaskObjectFromArray(index: Int, isComplete: Bool) {
+        let key: String = "task_\(tasks[index].id)"
+        tasks[index].isComplete = isComplete
+        let encoder = JSONEncoder()
+        
+        do {
+            let taskData: Data = try encoder.encode(tasks[index])
+            UserDefaults.standard.set(taskData, forKey: key)
+        } catch {
+            print("ERROR -- TodoViewController.97::Something went wrong with saving:\n\(error)")
+        }
+    }
+    
+    @objc func deleteTaskObjectFromArray(index: Int) {
+        let decoder = JSONDecoder()
+        let encoder = JSONEncoder()
+        let removedId = tasks[index].id
+        tasks.remove(at: index)
+        
+        guard let oldCount = UserDefaults.standard.value(forKey: "count") as? Int else {
+            print("ERROR -- TodoViewController.105::Could not find count as Int")
+            return
+        }
+        
+        for i in removedId..<oldCount {
+            do {
+                guard let nextTaskData: Data = UserDefaults.standard.data(forKey: "task_\(i+1)") else {
+                    print("ERROR -- TodoViewController.124::Couldn't find data for 'task_\(i+1)'")
+                    continue
+                }
+                // Check to make sure the "new" id matches for object
+                var decodedTask: Task = try decoder.decode(Task.self, from: nextTaskData)
+                decodedTask.id = i
+                let newCurrTaskData: Data = try encoder.encode(decodedTask)
+                UserDefaults.standard.set(newCurrTaskData, forKey: "task_\(i)")
+            } catch {
+                print("ERROR -- TodoViewController.132::\(error)")
+            }
+        }
+        
+        UserDefaults.standard.set(oldCount-1, forKey: "count")
+    }
     
 }
 
 extension TodoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        let alert = UIAlertController(title: tasks[indexPath.row].name, message: "", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "'\(tasks[indexPath.row].name)'", message: "", preferredStyle: .actionSheet)
         
         let done = UIAlertAction(title: "Mark as Done", style: .default, handler: { _ in
-            self.tasks[indexPath.row].isComplete = true
+            self.updateTaskObjectFromArray(index: indexPath.row, isComplete: true)
             self.update()
         })
         
         let delete = UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-            self.tasks.remove(at: indexPath.row)
-            
-            guard let oldCount = UserDefaults.standard.value(forKey: "count") as? Int else {
-                return
-            }
-            let newCount = oldCount-1
-            
-            for i in indexPath.row..<self.tasks.count {
-                UserDefaults.standard.set(self.tasks[i].name, forKey: "task_\(i+1)")
-            }
-            
-            UserDefaults.standard.removeObject(forKey: "task_\(oldCount)")
-            UserDefaults.standard.set(newCount, forKey: "count")
-            
+            self.deleteTaskObjectFromArray(index: indexPath.row)
             self.update()
         })
         
@@ -130,6 +171,8 @@ extension TodoViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // dequeue = using template over and over to get instance of cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "todoCell", for: indexPath)
+        
+        cell.textLabel?.text = tasks[indexPath.row].name
         
         return cell
     }
