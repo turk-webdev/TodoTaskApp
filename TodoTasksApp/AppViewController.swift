@@ -8,18 +8,20 @@ import UIKit
 // Since structs are values, we can easily code/decode it
 struct Task: Codable {
     var name: String?
-    var description: String?
     var isComplete: Bool
     
-    init(name: String, description: String, isComplete: Bool) {
+    init(name: String, isComplete: Bool) {
         self.name = name
-        self.description = description
         self.isComplete = isComplete
     }
 }
 
 
 class AppViewController: UIViewController {
+    var uuids = [String]()
+    var tasksTodo = [Task]()
+    var tasksCompleted = [Task]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
