@@ -12,7 +12,7 @@ class CompletedViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("New VC")
         // Do any additional setup after loading the view.
     }
 

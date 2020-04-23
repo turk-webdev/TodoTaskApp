@@ -10,18 +10,79 @@
         <!--To-Do-->
         <scene sceneID="tr8-M3-9Jv">
             <objects>
-                <viewController title="To-Do" id="qZq-19-qbN" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="todoTableView" title="To-Do" id="qZq-19-qbN" customClass="TodoViewController" customModule="TodoTasksApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kr3-uC-9wD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Goc-nR-UXf">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="todoCell" id="dgH-gP-6kM">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dgH-gP-6kM" id="xIX-Uj-bwx">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Goc-nR-UXf" firstAttribute="leading" secondItem="uTk-w0-9sh" secondAttribute="leading" id="FIQ-s9-p5O"/>
+                            <constraint firstItem="Goc-nR-UXf" firstAttribute="top" secondItem="uTk-w0-9sh" secondAttribute="top" id="YwU-jl-Rp2"/>
+                            <constraint firstItem="uTk-w0-9sh" firstAttribute="trailing" secondItem="Goc-nR-UXf" secondAttribute="trailing" id="fIe-ft-LfJ"/>
+                            <constraint firstItem="uTk-w0-9sh" firstAttribute="bottom" secondItem="Goc-nR-UXf" secondAttribute="bottom" id="zYq-W5-dSZ"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="uTk-w0-9sh"/>
                     </view>
-                    <navigationItem key="navigationItem" title="To-Do Tasks" id="l0w-qJ-ivb"/>
+                    <navigationItem key="navigationItem" title="To-Do Tasks" id="l0w-qJ-ivb">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" landscapeImage="plus" id="72F-zh-gtk">
+                            <connections>
+                                <action selector="didTapAdd:" destination="qZq-19-qbN" id="8nV-ek-lZC"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="todoTableView" destination="Goc-nR-UXf" id="wfi-3N-tK2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QtQ-DP-gab" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1002.8985507246377" y="2436.8303571428569"/>
+        </scene>
+        <!--New Task Entry-->
+        <scene sceneID="l69-LF-uZc">
+            <objects>
+                <viewController storyboardIdentifier="newEntryView" title="New Task Entry" id="8wX-Cm-6xz" customClass="NewEntryViewController" customModule="TodoTasksApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="QX9-Bo-6zi">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1QN-Sd-l3r">
+                                <rect key="frame" x="40" y="69" width="334" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="1QN-Sd-l3r" firstAttribute="leading" secondItem="lgt-f0-d5M" secondAttribute="leading" constant="40" id="G9M-wd-tsr"/>
+                            <constraint firstItem="1QN-Sd-l3r" firstAttribute="top" secondItem="lgt-f0-d5M" secondAttribute="top" constant="25" id="ORw-CZ-qS4"/>
+                            <constraint firstItem="lgt-f0-d5M" firstAttribute="trailing" secondItem="1QN-Sd-l3r" secondAttribute="trailing" constant="40" id="YZs-hX-qCI"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="lgt-f0-d5M"/>
+                    </view>
+                    <connections>
+                        <outlet property="newEntryTextField" destination="1QN-Sd-l3r" id="Un1-X0-gAV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jp3-O2-bKp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-214" y="2437"/>
         </scene>
         <!--Completed-->
         <scene sceneID="Uya-hp-rwN">
@@ -47,7 +108,29 @@
                     <view key="view" contentMode="scaleToFill" id="q4u-Te-yFH">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="completedTableView" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Tfn-8N-IeR">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="completedCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="MPh-it-YHa">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MPh-it-YHa" id="O3A-DX-UJy">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="mtI-QY-fix" firstAttribute="bottom" secondItem="Tfn-8N-IeR" secondAttribute="bottom" id="0xE-Ga-s0R"/>
+                            <constraint firstItem="Tfn-8N-IeR" firstAttribute="leading" secondItem="mtI-QY-fix" secondAttribute="leading" id="Jpt-V4-bhz"/>
+                            <constraint firstItem="Tfn-8N-IeR" firstAttribute="top" secondItem="mtI-QY-fix" secondAttribute="top" id="lIy-1c-gJk"/>
+                            <constraint firstItem="mtI-QY-fix" firstAttribute="trailing" secondItem="Tfn-8N-IeR" secondAttribute="trailing" id="tkZ-YW-fz7"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="mtI-QY-fix"/>
                     </view>
                     <navigationItem key="navigationItem" title="Completed Tasks" id="QYE-ZG-K4k"/>
@@ -55,6 +138,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wap-fm-aJF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1002.8985507246377" y="3150.6696428571427"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="uoc-AV-umK">
+            <objects>
+                <viewController id="Mdu-j5-eSr" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VER-sG-ztn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="2yK-ks-E6s"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ImN-2b-XRh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-214" y="3151"/>
         </scene>
         <!--To-Do-->
         <scene sceneID="JL8-an-0ao">
@@ -95,5 +193,6 @@
     <resources>
         <image name="checkmark.circle" catalog="system" width="128" height="121"/>
         <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
     </resources>
 </document>

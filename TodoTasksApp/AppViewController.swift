@@ -22,8 +22,17 @@ class AppViewController: UIViewController {
     var tasksTodo = [Task]()
     var tasksCompleted = [Task]()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        //DEBUG ONLY
+        print("Check")
+        uuids.append("Testing")
+        
+        let todoTableVC = storyboard?.instantiateViewController(identifier: "todoTableView") as! TodoViewController
+        todoTableVC.uuids = self.uuids
+        
     }
 
 }

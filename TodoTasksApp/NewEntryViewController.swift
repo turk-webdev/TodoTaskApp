@@ -10,32 +10,53 @@ import UIKit
 
 class NewEntryViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
-    @IBOutlet weak var addButton: UIButton!
-    @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var newTaskText: UITextField!
+    @IBOutlet weak var newEntryTextField: UITextField!
+    
+    var update: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addButton.layer.cornerRadius = 10
-        cancelButton.layer.cornerRadius = 10
-        newTaskText.delegate = self
+        newEntryTextField.delegate = self
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveTask))
         
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         saveTask()
-        
         return true
     }
     
-    func saveTask() {}
-    
-    @IBAction func cancelPressed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func addPressed(_ sender: Any) {
+    @objc func saveTask() {
+        guard let
+            text = newEntryTextField.text,
+            !text.isEmpty
+        else {
+            print("return1")
+            return
+        }
+        
+        guard let count = UserDefaults.standard.value(forKey: "count") as? Int else {
+            print("return2")
+            return
+        }
+        
+        UserDefaults.standard.set(count+1, forKey: "count")
+        
+        // Encode our Task object
+        let encoder = JSONEncoder()
+        
+        do {
+            let taskData: Data = try encoder.encode(Task(name: text, isComplete: false))
+            UserDefaults.standard.set(taskData, forKey: "task_\(count+1)")
+        } catch {
+            print("Something went wrong with saving:\n\(error)")
+        }
+        
+        update?()
+        navigationController?.popViewController(animated: true)
+        
     }
     
 }
